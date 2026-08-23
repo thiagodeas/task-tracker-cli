@@ -1,4 +1,4 @@
-package thiagoalves.Enum;
+package thiagoalves.enum;
 
 public enum Status {
     todo,
