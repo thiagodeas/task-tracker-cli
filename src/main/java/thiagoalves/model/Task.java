@@ -1,23 +1,31 @@
-package thiagoalves.Model;
+package thiagoalves.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-import thiagoalves.Enum.Status;
+import thiagoalves.enums.Status;
 
 public class Task {
-    private static int contador = 0;
     private int id;
     private String description;
     private Status status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
-    public Task(String description, Status status) {
-        this.id = ++contador;
+    public Task(int id, String description) {
+        this.id = id;
         this.description = description;
-        this.status = status;
+        this.status = Status.TODO;
         this.createdAt = LocalDateTime.now();
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public Task (int id, String description, Status status, String createdAt, String updatedAt) {
+        this.id = id;
+        this.description = description;
+        this.status = status;
+        this.createdAt = LocalDateTime.parse(createdAt);
+        this.updatedAt = LocalDateTime.parse(updatedAt);
     }
 
     public int getId() {
@@ -39,4 +47,5 @@ public class Task {
     public LocalDateTime getUpdatedDateTime() {
         return updatedAt;
     }
+    
 }
