@@ -1,17 +1,32 @@
 package thiagoalves.handler;
 
+import thiagoalves.exception.FieldNotFoundException;
 import thiagoalves.exception.InvalidCommandException;
+import thiagoalves.exception.MissingArgumentException;
+import thiagoalves.service.TaskService;
 
 public class CommandHandler {
 
-    public CommandHandler() {}
+    private final TaskService taskService;
 
-    public void handle (String[] input) throws InvalidCommandException {
+    public CommandHandler(TaskService taskService) {
+        this.taskService = taskService;
+    }
+
+    public void handle (String[] input) throws InvalidCommandException, MissingArgumentException, FieldNotFoundException {
         String command = input[0];
 
         switch (command) {
             case "add":
-                System.out.println("é add");
+                if (input.length > 1 && !input[1].isBlank()) {
+                    try {
+                        taskService.add(input[1]);
+                    } catch (Exception e) {
+                        System.err.println("Erro: erro no command " + e.getMessage());
+                    }
+                } else {
+                    throw new MissingArgumentException("O comando \"add\" precisa de uma descrição");
+                }
                 break;
             
             case "update":
@@ -51,7 +66,6 @@ public class CommandHandler {
                 } else {
                     System.out.println("é só list");
                 }
-
                 break;
 
             default:
