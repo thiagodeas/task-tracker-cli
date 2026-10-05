@@ -7,12 +7,14 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import thiagoalves.exception.FieldNotFoundException;
+import thiagoalves.exception.TaskNotFoundException;
 import thiagoalves.model.Task;
 import thiagoalves.parser.JsonToTaskParser;
 import thiagoalves.parser.TaskToJsonParser;
@@ -58,7 +60,7 @@ public class TaskRepository  {
         return newTask;
         }
 
-        public void update(int id, String description) {
+        public void update(int id, String description) throws IOException, FieldNotFoundException, TaskNotFoundException {
         Path path = Path.of("tasks.json");
 
         if (!Files.exists(path)) {
@@ -88,8 +90,14 @@ public class TaskRepository  {
             }
         }
 
-        if (taskFound = null) {
+        if (taskFound == null) {
             throw new TaskNotFoundException("Tarefa com ID " + id + " não foi encontrada.");
         }
 
+        taskFound.setDescription(description);
+        taskFound.setUpdatedDateTime();
+
+        String finalJson = taskToJsonParser.parse(tasks);
+        Files.writeString(path, finalJson);
     } 
+}
