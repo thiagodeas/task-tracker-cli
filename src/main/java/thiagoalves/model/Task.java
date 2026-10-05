@@ -1,11 +1,15 @@
 package thiagoalves.model;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 
 import thiagoalves.enums.Status;
 
 public class Task {
+
+    private static final ZoneId ZONE_BR = ZoneId.of("America/Sao_Paulo");
+
     private int id;
     private String description;
     private Status status;
@@ -16,8 +20,8 @@ public class Task {
         this.id = id;
         this.description = description;
         this.status = Status.TODO;
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
+        this.createdAt = LocalDateTime.now(ZONE_BR);
+        this.updatedAt = LocalDateTime.now(ZONE_BR);
     }
 
     public Task (int id, String description, Status status, String createdAt, String updatedAt) {
@@ -51,5 +55,9 @@ public class Task {
     public LocalDateTime getUpdatedDateTime() {
         return updatedAt;
     }
-    
+
+    public void setUpdatedDateTime() {
+        this.updatedAt = LocalDateTime.now(ZONE_BR); 
+    }
+
 }
