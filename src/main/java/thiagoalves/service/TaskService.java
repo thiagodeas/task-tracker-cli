@@ -17,4 +17,12 @@ public class TaskService {
     public Task add(String description) throws IOException, FieldNotFoundException {
         return repository.save(description);
     }
+
+    public void update(int id, String description) {
+        try {
+            repository.update(id, description);
+        } catch (Exception e) {
+            System.err.println("Erro: " + e.getMessage());
+        }  
+    }
 }
