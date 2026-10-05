@@ -22,7 +22,7 @@ public class CommandHandler {
                     try {
                         taskService.add(input[1]);
                     } catch (Exception e) {
-                        System.err.println("Erro: erro no command " + e.getMessage());
+                        System.err.println("Erro: " + e.getMessage());
                     }
                 } else {
                     throw new MissingArgumentException("O comando \"add\" precisa de uma descrição");
@@ -30,7 +30,14 @@ public class CommandHandler {
                 break;
             
             case "update":
-                System.out.println("é update");
+                if (input.length > 2 && !input[2].isBlank()) {
+                    try {  
+                        int id = Integer.parseInt(input[1]);
+                        taskService.update(id, input[2]);
+                    } catch (Exception e) {
+                        System.err.println("Erro: " + e.getMessage());
+                    }
+                }
                 break;
 
             case "delete":
