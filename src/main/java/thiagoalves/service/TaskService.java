@@ -14,8 +14,12 @@ public class TaskService {
         this.repository = repository;
     }
 
-    public Task add(String description) throws IOException, FieldNotFoundException {
-        return repository.save(description);
+    public Task add(String description) {
+        try {
+            return repository.save(description);   
+        } catch (IOException | FieldNotFoundException e) {
+            throw new TaskException("Erro ao adicionar tarefa.", e);
+        }
     }
 
     public void update(int id, String description) {
