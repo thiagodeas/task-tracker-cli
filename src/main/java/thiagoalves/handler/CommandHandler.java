@@ -13,7 +13,7 @@ public class CommandHandler {
         this.taskService = taskService;
     }
 
-    public void handle (String[] input) throws InvalidCommandException, MissingArgumentException, FieldNotFoundException {
+    public void handle (String[] input) {
         String command = input[0];
 
         switch (command) {
