@@ -2,8 +2,8 @@ package thiagoalves.service;
 
 import java.io.IOException;
 
-import main.java.thiagoalves.exception.TaskException;
-import main.java.thiagoalves.exception.TaskNotFoundException;
+import thiagoalves.exception.TaskNotFoundException;
+import thiagoalves.exception.TaskException;
 import thiagoalves.exception.FieldNotFoundException;
 import thiagoalves.model.Task;
 import thiagoalves.repository.TaskRepository;
@@ -31,4 +31,13 @@ public class TaskService {
             throw new TaskException("Erro ao atualizar a tarefa.", e);
         }  
     }
+
+    public void delete(int id) {
+        try {
+            repository.delete(id);
+        } catch (IOException | FieldNotFoundException | TaskNotFoundException e) {
+            throw new TaskException("Erro ao atualizar a tarefa.", e);
+        }
+    }
+
 }
