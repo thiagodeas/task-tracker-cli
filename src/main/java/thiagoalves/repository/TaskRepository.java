@@ -60,7 +60,7 @@ public class TaskRepository  {
         return newTask;
         }
 
-        public void update(int id, String description) throws IOException, FieldNotFoundException, TaskNotFoundException {
+    public void update(int id, String description) throws IOException, FieldNotFoundException, TaskNotFoundException {
         Path path = Path.of("tasks.json");
 
         if (!Files.exists(path)) {
@@ -100,4 +100,44 @@ public class TaskRepository  {
         String finalJson = taskToJsonParser.parse(tasks);
         Files.writeString(path, finalJson);
     } 
+
+    public void delete(int id) throws IOException, FieldNotFoundException, TaskNotFoundException {
+        Path path = Path.of("tasks.json");
+
+        if (!Files.exists(path)) {
+            Files.createFile(path);
+        }
+
+        String content = Files.readString(path);
+        tasks = new ArrayList<>();
+
+        if (!content.isBlank()) {
+            Pattern pattern = Pattern.compile("\\{[^}]*\\}");
+            Matcher matcher = pattern.matcher(content);
+
+            while (matcher.find()) {
+                String jsonObject = matcher.group();
+                Task existingTask = jsonToTaskParser.parse(jsonObject);
+                tasks.add(existingTask);
+            }
+        }
+
+        Task taskFound = null;
+
+        for(Task t : tasks) {
+            if (t.getId() == id) {
+                taskFound = t;
+                break;
+            }
+        }
+
+        if (taskFound == null) {
+            throw new TaskNotFoundException("Tarefa com ID " + id + " não foi encontrada.");
+        }
+
+        tasks.remove(taskFound);
+
+        String finalJson = taskToJsonParser.parse(tasks);
+        Files.writeString(path, finalJson);
+    }
 }
