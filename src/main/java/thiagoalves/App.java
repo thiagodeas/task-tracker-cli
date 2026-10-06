@@ -16,12 +16,9 @@ public class App {
         
         try {
             commandHandler.handle(args);
-        } catch (InvalidCommandException e) {
+        } catch (Exception e) {
             System.err.println("Erro: " + e.getMessage());
             System.exit(1);
-        } catch (FieldNotFoundException e) {
-            System.err.println("Erro: " + e.getMessage());
-            System.exit(1);
-        }  
+        } 
     }
 }
