@@ -52,7 +52,14 @@ public class CommandHandler {
                 break;
             
             case "mark-in-progress":
-                System.out.println("é markinprogress");
+                if (input.length > 1 && !input[1].isBlank()) {
+                    try {
+                        int id = Integer.parseInt(input[1]);
+                        taskService.markInProgress(id);
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
+                }
                 break;
 
             case "mark-done":
