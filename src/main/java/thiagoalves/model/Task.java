@@ -47,6 +47,10 @@ public class Task {
     public Status getStatus() {
         return status;
     }
+
+    public Status setStatus(Status status) {
+        return this.status = status;
+    }
     
     public LocalDateTime getCreatedDateTime() {
         return createdAt;
