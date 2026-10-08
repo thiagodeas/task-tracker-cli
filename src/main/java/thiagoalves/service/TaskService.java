@@ -40,4 +40,11 @@ public class TaskService {
         }
     }
 
+    public void markInProgress(int id) {
+        try {
+            repository.markInProgress(id);
+        } catch (IOException | FieldNotFoundException e) {
+            throw new TaskException("Erro ao atualizar o status da tarefa.", e);
+        }
+    }
 }
