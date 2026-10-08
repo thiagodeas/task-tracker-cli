@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import thiagoalves.enums.Status;
 import thiagoalves.exception.FieldNotFoundException;
 import thiagoalves.exception.TaskNotFoundException;
 import thiagoalves.model.Task;
@@ -136,6 +137,41 @@ public class TaskRepository  {
         }
 
         tasks.remove(taskFound);
+
+        String finalJson = taskToJsonParser.parse(tasks);
+        Files.writeString(path, finalJson);
+    }
+
+    public void markInProgress(int id) throws IOException, FieldNotFoundException {
+        Path path = Path.of("tasks.json");
+        if (!Files.exists(path)) {
+            Files.createFile(path);
+        }
+
+        String content = Files.readString(path);
+        tasks = new ArrayList<>();
+
+        if (!content.isBlank()) {
+            Pattern pattern = Pattern.compile("\\{[^}]*\\}");
+            Matcher matcher = pattern.matcher(content);
+
+            while (matcher.find()) {
+                String jsonObject = matcher.group();
+                Task existingTask = jsonToTaskParser.parse(jsonObject);
+                tasks.add(existingTask);
+            }
+        }
+
+        Task taskFound = null;
+
+        for(Task t : tasks) {
+            if (t.getId() == id) {
+                taskFound = t;
+                break;
+            }
+        }
+
+        taskFound.setStatus(Status.IN_PROGRESS);
 
         String finalJson = taskToJsonParser.parse(tasks);
         Files.writeString(path, finalJson);
