@@ -22,7 +22,7 @@ public class CommandHandler {
                     try {
                         taskService.add(input[1]);
                     } catch (Exception e) {
-                        System.err.println("Erro: " + e.getMessage());
+                        System.err.println(e.getMessage());
                     }
                 } else {
                     throw new MissingArgumentException("O comando \"add\" precisa de uma descrição");
@@ -35,13 +35,20 @@ public class CommandHandler {
                         int id = Integer.parseInt(input[1]);
                         taskService.update(id, input[2]);
                     } catch (Exception e) {
-                        System.err.println("Erro: " + e.getMessage());
+                        System.err.println(e.getMessage());
                     }
                 }
                 break;
 
             case "delete":
-                System.out.println("é delete");
+                if (input.length > 1 && !input[1].isBlank()) {
+                    try {
+                        int id = Integer.parseInt(input[1]);
+                        taskService.delete(id);
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
+                }
                 break;
             
             case "mark-in-progress":
